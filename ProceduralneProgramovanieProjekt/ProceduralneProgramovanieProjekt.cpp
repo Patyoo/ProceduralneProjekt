@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 #define SUBOR "sifra.txt"
 #define MAX 1000
@@ -11,6 +12,7 @@ void funkciaN(FILE* subor, char pole[], int* setLength);
 void funkciaV(char pole[], int length);
 void funkciaU(char poleP[], int lengthP, char poleU[], int* lengthU);
 void funkciaS(char pole[], int length);
+void funkciaD(char poleP[], int lengthP);
 
 int main()
 {
@@ -41,6 +43,9 @@ int main()
 				break;
 			case 's':
 				funkciaS(poleUpravene, lengthUpravene);
+				break;
+			case 'd':
+				funkciaD(polePovodne, lengthPovodne);
 				break;
 
 
@@ -96,4 +101,20 @@ void funkciaS(char pole[], int length) {
 		for (int i = 0;i < length;i++) printf("%c", pole[i]);
 		printf("\n");
 	}
+}
+void funkciaD(char poleP[], int lengthP) {
+	if (lengthP == 0) printf("Sprava nie je nacitana\n");
+	else {
+		int k;
+		scanf("%d", &k);
+		if (k >= 1 && k <= 100) {
+			char rozdelovac[] = "\n  ";
+			char* veta = strtok(poleP, rozdelovac);
+			while (veta != NULL) {
+				if ((unsigned)strlen(veta) == 3) printf("%s\n", veta);
+				veta = strtok(NULL, rozdelovac);
+			}
+		}
+		else printf("Nespravna dlzka.\n");
+	}	
 }
