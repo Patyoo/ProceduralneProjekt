@@ -13,6 +13,7 @@ void funkciaV(char pole[], int length);
 void funkciaU(char poleP[], int lengthP, char poleU[], int* lengthU);
 void funkciaS(char pole[], int length);
 void funkciaD(char poleP[], int lengthP);
+void funkciaH(char poleU[], int lengthU);
 
 int main()
 {
@@ -23,6 +24,8 @@ int main()
 	FILE* subor1 = NULL;
 	int lengthPovodne = 0;
 	int lengthUpravene = 0;
+
+	
 
 
 	while (1) {
@@ -46,6 +49,9 @@ int main()
 				break;
 			case 'd':
 				funkciaD(polePovodne, lengthPovodne);
+				break;
+			case 'h':
+				funkciaH(poleUpravene, lengthUpravene);
 				break;
 
 
@@ -103,7 +109,7 @@ void funkciaS(char pole[], int length) {
 	}
 }
 void funkciaD(char poleP[], int lengthP) {
-	if (lengthP == 0) printf("Sprava nie je nacitana\n");
+	if (lengthP == 0) printf("Sprava nie je nacitana.\n");
 	else {
 		int k;
 		scanf("%d", &k);
@@ -117,4 +123,27 @@ void funkciaD(char poleP[], int lengthP) {
 		}
 		else printf("Nespravna dlzka.\n");
 	}	
+}
+void funkciaH(char poleU[], int lengthU) {
+	
+	
+	int pocet[26] = { 0 };
+	double percenta[26] = { 0 };
+	
+	for (int i = 0;i < lengthU;i++) {
+		pocet[poleU[i]-65]++;
+		//printf("%c%d\n",poleU[i],pocet[poleU[i] - 65]);
+	}
+	
+	for (int i = 0;i < lengthU;i++) {
+		printf("%d\n",pocet[i]);
+	}
+
+	/*for (int i = 0;i < lengthU;i++) {
+		percenta[i] = (100 / lengthU) * (double)pocet[i];
+		printf("%c %f\n",poleU[i],percenta[i]);
+	}
+
+	for (int i = 0;i < 26;i++) printf("%c", 65 + i);
+	*/
 }
