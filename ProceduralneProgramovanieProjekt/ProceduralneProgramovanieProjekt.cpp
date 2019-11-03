@@ -126,24 +126,24 @@ void funkciaD(char poleP[], int lengthP) {
 }
 void funkciaH(char poleU[], int lengthU) {
 	
+	int pocet[26] = {0};
+	int percenta[26] = {0};
+	int max;
 	
-	int pocet[26] = { 0 };
-	double percenta[26] = { 0 };
-	
-	for (int i = 0;i < lengthU;i++) {
-		pocet[poleU[i]-65]++;
-		//printf("%c%d\n",poleU[i],pocet[poleU[i] - 65]);
-	}
-	
-	for (int i = 0;i < lengthU;i++) {
-		printf("%d\n",pocet[i]);
-	}
+	for (int i = 0;i < lengthU;i++) pocet[poleU[i]-65]++;
+	for (int i = 0;i <26;i++) percenta[i] = ((100 / lengthU) * pocet[i])/10;
 
-	/*for (int i = 0;i < lengthU;i++) {
-		percenta[i] = (100 / lengthU) * (double)pocet[i];
-		printf("%c %f\n",poleU[i],percenta[i]);
+	max = percenta[0];
+	for (int i = 1;i < 26;i++) if (percenta[i] > max) max = percenta[i];
+	
+	for (int i = max;i >=0;i--) {
+		for (int y = 0;y < 26;y++) {
+			if (percenta[y] > i) printf("*");
+			else printf(" ");
+		}
+		printf("\n");
 	}
 
 	for (int i = 0;i < 26;i++) printf("%c", 65 + i);
-	*/
+	
 }
