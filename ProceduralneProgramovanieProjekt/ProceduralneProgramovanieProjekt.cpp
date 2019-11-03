@@ -14,6 +14,7 @@ void funkciaU(char poleP[], int lengthP, char poleU[], int* lengthU);
 void funkciaS(char pole[], int length);
 void funkciaD(char poleP[], int lengthP);
 void funkciaH(char poleU[], int lengthU);
+void funkciaC(char poleU[], int lengthU);
 
 int main()
 {
@@ -26,7 +27,7 @@ int main()
 	int lengthUpravene = 0;
 
 	
-
+	//bug,zrejme berie aj koniec znaku do dlzky
 
 	while (1) {
 		scanf("%c", &rozhodnutie);
@@ -52,6 +53,9 @@ int main()
 				break;
 			case 'h':
 				funkciaH(poleUpravene, lengthUpravene);
+				break;
+			case 'c':
+				funkciaC(poleUpravene, lengthUpravene);
 				break;
 
 
@@ -125,25 +129,40 @@ void funkciaD(char poleP[], int lengthP) {
 	}	
 }
 void funkciaH(char poleU[], int lengthU) {
-	
-	int pocet[26] = {0};
-	int percenta[26] = {0};
-	int max;
-	
-	for (int i = 0;i < lengthU;i++) pocet[poleU[i]-65]++;
-	for (int i = 0;i <26;i++) percenta[i] = ((100 / lengthU) * pocet[i])/10;
+	if (lengthU == 0) printf("Nie je k dispozicii upravena sprava.\n");
+	else {
+		int pocet[26] = { 0 };
+		int percenta[26] = { 0 };
+		int max;
 
-	max = percenta[0];
-	for (int i = 1;i < 26;i++) if (percenta[i] > max) max = percenta[i];
-	
-	for (int i = max;i >=0;i--) {
-		for (int y = 0;y < 26;y++) {
-			if (percenta[y] > i) printf("*");
-			else printf(" ");
+		for (int i = 0;i < lengthU;i++) pocet[poleU[i] - 65]++;
+		for (int i = 0;i < 26;i++) percenta[i] = ((pocet[i] * 100)/lengthU / 10);
+
+		max = percenta[0];
+		for (int i = 1;i < 26;i++) if (percenta[i] > max) max = percenta[i];
+
+		for (int i = max;i >= 0;i--) {
+			for (int y = 0;y < 26;y++) {
+				if (percenta[y] > i) printf("*");
+				else printf(" ");
+			}
+			printf("\n");
 		}
-		printf("\n");
+		for (int i = 0;i < 26;i++) printf("%c", 65 + i);
+	}	
+}
+void funkciaC(char poleU[], int lengthU){
+	if (lengthU == 0) printf("Nie je k dispozicii upravena sprava.\n");
+	else {
+		int n;
+		scanf("%d", &n);
+		if (n >= 1 && n <= 25) {
+			for (int i = 0;i < lengthU;i++) {
+				poleU[i]=(poleU[i]+n-65)%26 + 65;
+				printf("%c", poleU[i]);
+			}
+			printf("\n");
+		}
+		else printf("Nespravna dlzka.\n");
 	}
-
-	for (int i = 0;i < 26;i++) printf("%c", 65 + i);
-	
 }
