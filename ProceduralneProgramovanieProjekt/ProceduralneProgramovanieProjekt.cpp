@@ -7,6 +7,7 @@
 
 #define SUBOR "sifra.txt"
 #define MAX 1000
+#define rozsahPismen 26
 
 void funkciaN(FILE* subor, char pole[], int* setLength);
 void funkciaV(char pole[], int length);
@@ -26,16 +27,12 @@ int main()
 	int lengthPovodne = 0;
 	int lengthUpravene = 0;
 
-	
-	//bug,zrejme berie aj koniec znaku do dlzky
-
 	while (1) {
 		scanf("%c", &rozhodnutie);
 		if (rozhodnutie == 'k') break;
 		else {
 
 			switch (rozhodnutie) {
-
 			case 'n':
 				funkciaN(subor1, polePovodne, &lengthPovodne);
 				break;
@@ -57,16 +54,9 @@ int main()
 			case 'c':
 				funkciaC(poleUpravene, lengthUpravene);
 				break;
-
-
 			}
-
 		}
-
 	}
-
-
-
 	return 0;
 }
 
@@ -103,7 +93,6 @@ void funkciaU(char poleP[], int lengthP, char poleU[], int* lengthU) {
 		}
 		*lengthU = length;
 	}
-
 }
 void funkciaS(char pole[], int length) {
 	if (length == 0) printf("Nie je k dispozicii upravena sprava.\n");
@@ -118,11 +107,11 @@ void funkciaD(char poleP[], int lengthP) {
 		int k;
 		scanf("%d", &k);
 		if (k >= 1 && k <= 100) {
-			char rozdelovac[] = "\n  ";
-			char* veta = strtok(poleP, rozdelovac);
-			while (veta != NULL) {
-				if ((unsigned)strlen(veta) == 3) printf("%s\n", veta);
-				veta = strtok(NULL, rozdelovac);
+			char gap[] = "\n  ";
+			char* sentence = strtok(poleP, gap);
+			while (sentence != NULL) {
+				if ((unsigned)strlen(sentence) == k) printf("%s\n", sentence);
+				sentence = strtok(NULL, gap);
 			}
 		}
 		else printf("Nespravna dlzka.\n");
@@ -131,24 +120,25 @@ void funkciaD(char poleP[], int lengthP) {
 void funkciaH(char poleU[], int lengthU) {
 	if (lengthU == 0) printf("Nie je k dispozicii upravena sprava.\n");
 	else {
-		int pocet[26] = { 0 };
-		int percenta[26] = { 0 };
+		int pocet[rozsahPismen] = { 0 };
+		int percenta[rozsahPismen] = { 0 };
 		int max;
 
 		for (int i = 0;i < lengthU;i++) pocet[poleU[i] - 65]++;
-		for (int i = 0;i < 26;i++) percenta[i] = ((pocet[i] * 100)/lengthU / 10);
+		for (int i = 0;i < rozsahPismen;i++) percenta[i] = ((pocet[i] * 100)/lengthU / 10);
 
 		max = percenta[0];
-		for (int i = 1;i < 26;i++) if (percenta[i] > max) max = percenta[i];
+		for (int i = 1;i < rozsahPismen;i++) if (percenta[i] > max) max = percenta[i];
 
 		for (int i = max;i >= 0;i--) {
-			for (int y = 0;y < 26;y++) {
+			for (int y = 0;y < rozsahPismen;y++) {
 				if (percenta[y] > i) printf("*");
 				else printf(" ");
 			}
 			printf("\n");
 		}
-		for (int i = 0;i < 26;i++) printf("%c", 65 + i);
+		for (int i = 0;i < rozsahPismen;i++) printf("%c", 65 + i);
+		printf("\n");
 	}	
 }
 void funkciaC(char poleU[], int lengthU){
@@ -158,7 +148,7 @@ void funkciaC(char poleU[], int lengthU){
 		scanf("%d", &n);
 		if (n >= 1 && n <= 25) {
 			for (int i = 0;i < lengthU;i++) {
-				poleU[i]=(poleU[i]+n-65)%26 + 65;
+				poleU[i]=(poleU[i]-n-65)% rozsahPismen + 65;
 				printf("%c", poleU[i]);
 			}
 			printf("\n");
