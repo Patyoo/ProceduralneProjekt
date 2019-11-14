@@ -1,6 +1,3 @@
-// ProceduralneProgramovanieProjekt.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -8,6 +5,8 @@
 #define SUBOR "sifra.txt"
 #define MAX 1000
 #define rozsahPismen 26
+#define startASCII 65
+
 
 void funkciaN(FILE* subor, char pole[], int* setLength);
 void funkciaV(char pole[], int length);
@@ -22,17 +21,16 @@ int main()
 
 	char polePovodne[MAX] = {};
 	char poleUpravene[MAX] = {};
-	char rozhodnutie;
+	char choice;
 	FILE* subor1 = NULL;
 	int lengthPovodne = 0;
 	int lengthUpravene = 0;
 
 	while (1) {
-		scanf("%c", &rozhodnutie);
-		if (rozhodnutie == 'k') break;
+		scanf(" %c", &choice);
+		if (choice == 'k') break;
 		else {
-
-			switch (rozhodnutie) {
+			switch (choice) {
 			case 'n':
 				funkciaN(subor1, polePovodne, &lengthPovodne);
 				break;
@@ -54,22 +52,23 @@ int main()
 			case 'c':
 				funkciaC(poleUpravene, lengthUpravene);
 				break;
+			default: printf("Toto pismeno nie je k dispozicii.\n");
 			}
 		}
 	}
 	return 0;
 }
 
-void funkciaN(FILE* subor, char pole[], int* setLength) {
+void funkciaN(FILE* subor, char pole[], int* length) {
 	if ((subor = fopen(SUBOR, "r")) == NULL) printf("Spravu sa nepodarilo nacitat.\n");
 	else {
-		int c, length = 0;
+		int c, counter = 0;
 		while ((c = getc(subor)) != EOF) {
-			if (length == MAX + 1) break;
-			length++;
-			pole[length - 1] = c;
+			if (counter == MAX + 1) break;
+			counter++;
+			pole[counter - 1] = c;
 		}
-		*setLength = length;
+		*length = counter;
 		fclose(subor);
 	}
 }
@@ -84,14 +83,14 @@ void funkciaU(char poleP[], int lengthP, char poleU[], int* lengthU) {
 
 	if (lengthP == 0) printf("Sprava nie je nacitana.\n");
 	else {
-		int length = 0;
+		int counter = 0;
 		for (int i = 0;i < lengthP;i++) {
 			if (isalpha(poleP[i])) {
-				length++;
-				poleU[length - 1] = toupper(poleP[i]);
+				counter++;
+				poleU[counter - 1] = toupper(poleP[i]);
 			}
 		}
-		*lengthU = length;
+		*lengthU = counter;
 	}
 }
 void funkciaS(char pole[], int length) {
@@ -120,16 +119,16 @@ void funkciaD(char poleP[], int lengthP) {
 void funkciaH(char poleU[], int lengthU) {
 	if (lengthU == 0) printf("Nie je k dispozicii upravena sprava.\n");
 	else {
-		int pocet[rozsahPismen] = { 0 };
-		int percenta[rozsahPismen] = { 0 };
+
+		int pocet[rozsahPismen] = {0};
+		int percenta[rozsahPismen] = {0};
 		int max;
 
-		for (int i = 0;i < lengthU;i++) pocet[poleU[i] - 65]++;
-		for (int i = 0;i < rozsahPismen;i++) percenta[i] = ((pocet[i] * 100)/lengthU / 10);
+		for (int i = 0;i < lengthU;i++) pocet[poleU[i] - startASCII]++;
+		for (int i = 0;i < rozsahPismen;i++) percenta[i] = ((pocet[i] * 100)/lengthU/10);
 
 		max = percenta[0];
 		for (int i = 1;i < rozsahPismen;i++) if (percenta[i] > max) max = percenta[i];
-
 		for (int i = max;i >= 0;i--) {
 			for (int y = 0;y < rozsahPismen;y++) {
 				if (percenta[y] > i) printf("*");
@@ -137,7 +136,7 @@ void funkciaH(char poleU[], int lengthU) {
 			}
 			printf("\n");
 		}
-		for (int i = 0;i < rozsahPismen;i++) printf("%c", 65 + i);
+		for (int i = 0;i < rozsahPismen;i++) printf("%c", startASCII + i);
 		printf("\n");
 	}	
 }
@@ -148,7 +147,7 @@ void funkciaC(char poleU[], int lengthU){
 		scanf("%d", &n);
 		if (n >= 1 && n <= 25) {
 			for (int i = 0;i < lengthU;i++) {
-				poleU[i]=(poleU[i]-n-65)% rozsahPismen + 65;
+				poleU[i]=((poleU[i]-n- startASCII) % rozsahPismen) + startASCII;
 				printf("%c", poleU[i]);
 			}
 			printf("\n");
