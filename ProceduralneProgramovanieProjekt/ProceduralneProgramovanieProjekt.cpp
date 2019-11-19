@@ -69,7 +69,7 @@ void funkciaN(FILE* subor, char pole[], int* length) {
 			pole[counter - 1] = c;
 		}
 		*length = counter;
-		fclose(subor);
+		if ((fclose(subor)) != 0) printf("Subor sa nepodarilo zatvorit");
 	}
 }
 void funkciaV(char pole[], int length) {
