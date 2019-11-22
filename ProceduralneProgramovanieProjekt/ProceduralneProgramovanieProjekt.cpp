@@ -103,6 +103,9 @@ void funkciaS(char pole[], int length) {
 void funkciaD(char poleP[], int lengthP) {
 	if (lengthP == 0) printf("Sprava nie je nacitana.\n");
 	else {
+		char polePom[MAX];
+		strcpy(polePom, poleP);
+
 		int k;
 		scanf("%d", &k);
 		if (k >= 1 && k <= 100) {
@@ -114,18 +117,23 @@ void funkciaD(char poleP[], int lengthP) {
 			}
 		}
 		else printf("Nespravna dlzka.\n");
-	}	
+		strcpy(poleP, polePom);
+	}
+
 }
 void funkciaH(char poleU[], int lengthU) {
 	if (lengthU == 0) printf("Nie je k dispozicii upravena sprava.\n");
 	else {
 
-		int pocet[rozsahPismen] = {0};
-		int percenta[rozsahPismen] = {0};
+		int pocet[rozsahPismen] = { 0 };
+		int percenta[rozsahPismen] = { 0 };
 		int max;
 
 		for (int i = 0;i < lengthU;i++) pocet[poleU[i] - startASCII]++;
-		for (int i = 0;i < rozsahPismen;i++) percenta[i] = ((pocet[i] * 100)/lengthU/10);
+		for (int i = 0;i < rozsahPismen;i++) {
+			percenta[i] = ((pocet[i] * 100) / lengthU / 10);
+			if (pocet[i] > 0 && pocet[i] <= 10) percenta[i]++;
+		}
 
 		max = percenta[0];
 		for (int i = 1;i < rozsahPismen;i++) if (percenta[i] > max) max = percenta[i];
@@ -138,16 +146,16 @@ void funkciaH(char poleU[], int lengthU) {
 		}
 		for (int i = 0;i < rozsahPismen;i++) printf("%c", startASCII + i);
 		printf("\n");
-	}	
+	}
 }
-void funkciaC(char poleU[], int lengthU){
+void funkciaC(char poleU[], int lengthU) {
 	if (lengthU == 0) printf("Nie je k dispozicii upravena sprava.\n");
 	else {
 		int n;
 		scanf("%d", &n);
 		if (n >= 1 && n <= 25) {
 			for (int i = 0;i < lengthU;i++) {
-				poleU[i]=((poleU[i]-n- startASCII) % rozsahPismen) + startASCII;
+				poleU[i] = ((poleU[i] - n - startASCII) % rozsahPismen) + startASCII;
 				printf("%c", poleU[i]);
 			}
 			printf("\n");
