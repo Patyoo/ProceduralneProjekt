@@ -132,7 +132,7 @@ void funkciaH(char poleU[], int lengthU) {
 		for (int i = 0;i < lengthU;i++) pocet[poleU[i] - startASCII]++;
 		for (int i = 0;i < rozsahPismen;i++) {
 			percenta[i] = ((pocet[i] * 100) / lengthU / 10);
-			if (pocet[i] > 0 && pocet[i] <= 10) percenta[i]++;
+			if (pocet[i] > 0 && pocet[i] < 10) percenta[i]++;
 		}
 
 		max = percenta[0];
