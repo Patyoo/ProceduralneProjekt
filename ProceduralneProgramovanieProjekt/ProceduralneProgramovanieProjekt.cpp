@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define SUBOR "sifra.txt"
 #define MAX 1000
@@ -15,6 +16,9 @@ void funkciaS(char pole[], int length);
 void funkciaD(char poleP[], int lengthP);
 void funkciaH(char poleU[], int lengthU);
 void funkciaC(char poleU[], int lengthU);
+void funkciaP(char poleP[], int lengthP);
+void funkciaZ(char poleP[], int* lengthP);
+
 
 int main()
 {
@@ -51,6 +55,12 @@ int main()
 				break;
 			case 'c':
 				funkciaC(poleUpravene, lengthUpravene);
+				break;
+			case 'p':
+				funkciaP(polePovodne, lengthPovodne);
+				break;
+			case 'z':
+				funkciaZ(poleUpravene, &lengthUpravene);
 				break;
 			default: printf("Toto pismeno nie je k dispozicii.\n");
 			}
@@ -161,5 +171,31 @@ void funkciaC(char poleU[], int lengthU) {
 			printf("\n");
 		}
 		else printf("Nespravna dlzka.\n");
+	}
+}
+void funkciaP(char poleP[], int lengthP) {
+	if (lengthP == 0) printf("Sprava nie je nacitana.\n");
+	else {
+		int pismenkove = 0;
+		int	nepismenkove = 0;
+		for (int i = 0;i < lengthP;i++) {
+			if (isalpha(poleP[i])) pismenkove++;
+			else nepismenkove++;
+		}
+		printf("%d:%d\n", pismenkove, nepismenkove);
+	}
+
+}
+
+void funkciaZ(char poleU[], int* lengthU) {
+	int pozicia, dlzka;
+	scanf("%d %d", &pozicia, &dlzka);
+
+	if ((pozicia + dlzka) > * lengthU) printf("Retazec nie je mozne zmazat\n");
+	else if (lengthU == 0) printf("Nie je k dispozicii upravena sprava.\n");
+	else {
+		for (int i = pozicia;i < *lengthU;i++) poleU[i] = poleU[i + dlzka];
+		*lengthU -= dlzka;
+		printf("%s", "Retazec sa zmazal\n");
 	}
 }
