@@ -9,6 +9,7 @@
 #define startASCII 65
 
 
+
 void funkciaN(FILE* subor, char pole[], int* setLength);
 void funkciaV(char pole[], int length);
 void funkciaU(char poleP[], int lengthP, char poleU[], int* lengthU);
